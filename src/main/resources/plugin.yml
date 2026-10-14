@@ -1,0 +1,89 @@
+name: CappyGuard
+version: '${version}'
+main: com.cappycommunity.cappyguard.CappyGuard
+api-version: '1.21'
+author: Cappy Community
+description: High-performance security plugin for Paper/Spigot - Anti Force OP, Admin Abuse Prevention, Creative Monitor, Plugin Spoof, and Discord Alerts.
+website: https://github.com/cappyboomc/CappyGuard
+
+commands:
+  cappyguard:
+    description: Main command for CappyGuard administration.
+    aliases: [cg]
+    permission: cappyguard.admin
+    usage: /<command> [reload|status|whitelist]
+
+permissions:
+  # Administrator Command Permissions
+  cappyguard.admin:
+    description: Full access to all CappyGuard admin commands.
+    default: op
+  cappyguard.command.reload:
+    description: Access to /cappyguard reload.
+    default: op
+  cappyguard.command.status:
+    description: Access to /cappyguard status.
+    default: op
+  cappyguard.command.whitelist:
+    description: Access to /cappyguard whitelist commands.
+    default: op
+
+  # Monitored Staff Permissions (Applied to Staff Members to enforce anti-abuse rules)
+  cappyguard.staff:
+    description: Marks player as staff member, subjecting them to all anti-abuse monitors.
+    default: false
+  cappyguard.staff.creative:
+    description: Enforces Creative Monitor rules (tracks containers, coords, drops).
+    default: false
+  cappyguard.staff.gamemode:
+    description: Restricts unauthorized gamemode switching.
+    default: false
+  cappyguard.staff.ratelimit:
+    description: Enforces admin command rate limiting.
+    default: false
+  cappyguard.staff.selfgive:
+    description: Blocks self-giving items using commands.
+    default: false
+  cappyguard.staff.commands:
+    description: Blocks dangerous server commands for staff.
+    default: false
+
+  # In-Game Alert Permissions
+  cappyguard.alert:
+    description: Receive all security alert notifications in game.
+    default: op
+  cappyguard.alert.forceop:
+    description: Receive Force OP alert notifications.
+    default: op
+  cappyguard.alert.creative:
+    description: Receive Creative Monitor alert notifications.
+    default: op
+  cappyguard.alert.abuse:
+    description: Receive Admin Abuse and Rate Limit alert notifications.
+    default: op
+  cappyguard.alert.spoof:
+    description: Receive Plugin Scan and Spoof alert notifications.
+    default: op
+
+  # Bypass Permissions (Owner High-Level Exemption)
+  cappyguard.bypass.*:
+    description: Complete bypass for all CappyGuard security modules.
+    default: false
+  cappyguard.bypass.forceop:
+    description: Bypass OP Whitelist verification.
+    default: false
+  cappyguard.bypass.gamemode:
+    description: Bypass gamemode restriction checks.
+    default: false
+  cappyguard.bypass.dangerous:
+    description: Bypass dangerous commands restriction.
+    default: false
+  cappyguard.bypass.creative:
+    description: Bypass creative item monitoring.
+    default: false
+  cappyguard.bypass.ratelimit:
+    description: Bypass command rate limiting.
+    default: false
+  cappyguard.bypass.spoof:
+    description: View real server plugins when running /plugins or /version.
+    default: false

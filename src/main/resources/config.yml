@@ -1,0 +1,211 @@
+# ==============================================================================
+#                             CappyGuard Configuration
+#                        Developed by Cappy Community
+# ==============================================================================
+# High-performance server security plugin for Paper/Spigot.
+# Designed for zero-tick performance impact, deep monitoring, and instant alerts.
+# ==============================================================================
+
+# Chat prefix for all in-game notifications (supports MiniMessage & legacy color codes)
+prefix: "<gradient:#ff6b6b:#ee5a24>[CappyGuard]</gradient> "
+
+# ==============================================================================
+#                              Anti Force OP Module
+# ==============================================================================
+# Prevents unauthorized players from obtaining operator status via backdoors,
+# compromised console sessions, or exploited plugins.
+anti-force-op:
+  enabled: true
+  # Action to take when an unauthorized OP event occurs: DEOP, KICK, or BAN
+  action: KICK
+  # Block player execution of /op and /minecraft:op commands
+  block-op-command: true
+  # Block console execution of 'op <target>' if the target player is not whitelisted
+  block-console-op: true
+  # Periodic online player scan interval in seconds (0 to disable)
+  scan-interval: 10
+  # Messages
+  kick-message: "&c[CappyGuard] Unauthorized Operator privileges detected!"
+  ban-message: "&c[CappyGuard] Force OP attempt detected. You have been banned!"
+
+# ==============================================================================
+#                              OP Whitelist Module
+# ==============================================================================
+# Strict list of verified operators. Players not on this list will immediately
+# have their operator status revoked. Both UUIDs and usernames are supported.
+# UUID format is strongly recommended to prevent player renaming bypasses.
+op-whitelist:
+  enabled: true
+  allowed:
+    - "00000000-0000-0000-0000-000000000000" # Replace with your real UUID
+    - "ServerOwner"                           # Replace with your username
+
+# ==============================================================================
+#                            Anti Admin Abuse Module
+# ==============================================================================
+# Controls excessive use of administrative commands by staff members.
+anti-admin-abuse:
+  enabled: true
+  rate-limit:
+    enabled: true
+    # Maximum administrative commands allowed within the time window
+    max-commands: 10
+    # Time window in seconds
+    time-window: 60
+    # Action when limit is exceeded: WARN, KICK, or TEMPBAN
+    action: WARN
+  # Block staff from giving items to themselves via /give, /minecraft:give, or /item
+  block-self-give: true
+
+# ==============================================================================
+#                           Anti Gamemode Abuse Module
+# ==============================================================================
+# Restricts staff members from freely switching into creative or spectator mode.
+anti-gamemode:
+  enabled: true
+  # Gamemodes restricted by default
+  blocked-gamemodes:
+    - CREATIVE
+    - SPECTATOR
+  # List of allowed player UUIDs or usernames permitted to switch gamemodes
+  allowed-players: []
+  # List of worlds where switching into restricted gamemodes is permitted
+  allowed-worlds:
+    - "creative_world"
+
+# ==============================================================================
+#                         Anti Dangerous Commands Module
+# ==============================================================================
+# Intercepts high-risk commands that could shut down or damage the server.
+anti-dangerous-commands:
+  enabled: true
+  blocked-commands:
+    - "/stop"
+    - "/restart"
+    - "/reload"
+    - "/ban"
+    - "/ban-ip"
+    - "/kick"
+    - "/op"
+    - "/deop"
+    - "/minecraft:op"
+    - "/minecraft:deop"
+    - "/minecraft:ban"
+    - "/minecraft:ban-ip"
+    - "/minecraft:kick"
+    - "/minecraft:stop"
+    - "/pardon"
+    - "/pardon-ip"
+    - "/whitelist"
+  # List of player UUIDs or names explicitly permitted to use these commands
+  bypass-players: []
+
+# ==============================================================================
+#                            Creative Monitor Module
+# ==============================================================================
+# Monitors staff inventory actions while in Creative Mode.
+# Records exact coordinates (X, Y, Z) and world when items are deposited into
+# chests or containers, stored in ender chests, or dropped to other players.
+creative-monitor:
+  enabled: true
+  # Action mode:
+  # - LOG_ONLY: Record events in logs without restriction
+  # - ALERT: Record events and notify online staff immediately
+  # - RESTRICT: Block staff from placing creative items into containers
+  action: ALERT
+  track:
+    chest-place: true        # Log when items are deposited into chests / barrels / hoppers
+    ender-chest: true        # Log when items are deposited into Ender Chests
+    item-drop: true          # Log when items are dropped on the ground
+    item-pickup: true        # Log when another player picks up a dropped creative item
+    gamemode-switch: true    # Log if player retains creative items after switching to survival
+  # Clear player inventory automatically when switching from Creative to Survival
+  clear-on-switch: false
+  # Specific items to track (leave empty [] to track all items)
+  tracked-items: []
+  # Common blocks to ignore to avoid cluttering logs
+  ignored-items:
+    - "DIRT"
+    - "COBBLESTONE"
+    - "STONE"
+    - "GRASS_BLOCK"
+
+# ==============================================================================
+#                              Plugin Spoof Module
+# ==============================================================================
+# Hides server plugin information from unauthorized players and hack clients,
+# preventing vulnerability reconnaissance and exploit searches.
+plugin-spoof:
+  enabled: true
+  # Mode options:
+  # - HIDE: Return standard unknown command / permission error
+  # - FAKE: Display a customized fake plugin list to mislead attackers
+  # - CUSTOM_MESSAGE: Send a custom informative message
+  mode: FAKE
+  hide-message: "&cUnknown command. Type \"/help\" for help."
+  custom-message: "&7Server plugin inspection is disabled on this server."
+  # Simulated plugin list displayed in FAKE mode
+  fake-plugins:
+    - "CappyGuard"
+    - "Essentials"
+    - "WorldGuard"
+    - "CoreProtect"
+  # Strip plugin names from command tab completion (Paper API)
+  block-tab-complete: true
+  # Block /version <plugin> and /about <plugin> requests
+  block-version-check: true
+  # Log attempts when players try to scan plugins
+  log-attempts: true
+
+# ==============================================================================
+#                             Logging & Alert Module
+# ==============================================================================
+logging:
+  enabled: true
+  # Asynchronous non-blocking file logging
+  file-logging: true
+  log-file: "logs/cappyguard.log"
+  # In-game notification for staff players with permission cappyguard.alert
+  staff-alerts: true
+  log-events:
+    op-changes: true
+    command-blocks: true
+    gamemode-changes: true
+    creative-monitor: true
+    admin-commands: true
+    plugin-spoof-attempts: true
+
+# ==============================================================================
+#                             Discord Webhook Module
+# ==============================================================================
+# Asynchronously dispatches security incidents directly to your Discord channel.
+# Uses non-blocking Java 21 HTTP Client with zero TPS impact.
+discord:
+  enabled: false
+  webhook-url: "https://discord.com/api/webhooks/your/webhook/url"
+  username: "CappyGuard Security"
+  avatar-url: "https://i.imgur.com/your-avatar.png"
+  # Mention a role on critical security alerts (e.g., "<@&ROLE_ID>") or leave empty
+  mention: ""
+
+  # Events sent to Discord
+  events:
+    force-op: true
+    creative-abuse: true
+    admin-abuse: true
+    dangerous-commands: true
+    plugin-spoof: false
+
+  # Embed Colors (Hex codes)
+  embed-colors:
+    critical: "#FF2A2A"      # Red: Force OP, Backdoor detection
+    warning: "#FF9900"       # Orange: Creative container placement, Dangerous commands
+    info: "#3498DB"          # Blue: Gamemode switch, Plugin scan
+
+  # Embed format settings
+  embed-format:
+    title-prefix: "🛡️ [CappyGuard Alert] "
+    include-timestamp: true
+    include-player-head: true
+    footer-text: "CappyGuard Protection System • Paper 1.21"
+    footer-icon-url: ""
