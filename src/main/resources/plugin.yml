@@ -5,6 +5,8 @@ api-version: '1.21'
 author: Cappy Community
 description: High-performance security plugin for Paper/Spigot - Anti Force OP, Admin Abuse Prevention, Creative Monitor, Plugin Spoof, and Discord Alerts.
 website: https://github.com/cappyboomc/CappyGuard
+depend:
+  - packetevents
 
 commands:
   cappyguard:
@@ -64,6 +66,9 @@ permissions:
   cappyguard.alert.spoof:
     description: Receive Plugin Scan and Spoof alert notifications.
     default: op
+  cappyguard.alert.packet:
+    description: Receive Deep Packet Guard alert notifications.
+    default: op
 
   # Bypass Permissions (Owner High-Level Exemption)
   cappyguard.bypass.*:
@@ -87,3 +92,7 @@ permissions:
   cappyguard.bypass.spoof:
     description: View real server plugins when running /plugins or /version.
     default: false
+  cappyguard.bypass.packet:
+    description: Bypass Deep Packet Guard packet checks.
+    default: false
+

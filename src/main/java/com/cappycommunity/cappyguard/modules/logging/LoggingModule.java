@@ -113,3 +113,4 @@ public final class LoggingModule extends AbstractModule {
         }
     }
 }
+

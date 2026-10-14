@@ -179,6 +179,12 @@ flowchart TD
 - In-game broadcasts to staff with granular alert permissions.
 - Rich Discord Embed notifications dispatching asynchronously via Java 21 `HttpClient`.
 
+### Module 9: 🛡️ Deep Packet Guard
+- **PacketEvents Integration:** Intercepts raw network packets directly at the Netty pipeline level before Bukkit event dispatch.
+- **GuiMove / InvMove Detection:** Detects and flags players clicking window or inventory slots while possessing active movement momentum or sprinting (ClickGUI movement hack).
+- **Network-Level Prefix Leak Drop:** Silently drops packets with cheat command prefixes (`.`, `,`, `-`, `@`, `#`, `;`) before they reach chat or loggers.
+- **Cheat Mod Channel Sniffing:** Detects registration of cheat mod payloads (`baritone:`, `meteor:`, `wurst:`, `liquidbounce:`) during connection handshake.
+
 ---
 
 ## 💻 Command System
@@ -223,6 +229,7 @@ Main command alias: `/cg` or `/cappyguard`.
 | `cappyguard.alert.creative` | Receive Creative item placement and transfer alerts | `op` |
 | `cappyguard.alert.abuse` | Receive Admin Abuse and Rate Limit alerts | `op` |
 | `cappyguard.alert.spoof` | Receive Plugin Scan reconnaissance alerts | `op` |
+| `cappyguard.alert.packet` | Receive Deep Packet Guard cheat alerts | `op` |
 
 ### 4. High-Level Bypass *(Server Owner Exemption)*
 | Permission | Description | Default |
@@ -234,6 +241,7 @@ Main command alias: `/cg` or `/cappyguard`.
 | `cappyguard.bypass.creative` | Exempt from Creative item monitoring | `false` |
 | `cappyguard.bypass.ratelimit` | Exempt from command rate limiting | `false` |
 | `cappyguard.bypass.spoof` | Allows viewing real plugins with `/plugins` or `/version` | `false` |
+| `cappyguard.bypass.packet` | Exempt from Deep Packet Guard Netty checks | `false` |
 
 ---
 

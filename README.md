@@ -61,12 +61,17 @@ Whether you run a competitive survival server, a creative network, or an SMP wit
 - Intercepts catastrophic server commands such as `/stop`, `/restart`, `/reload`, `/ban`, `/ban-ip`, and aliases.
 - Configurable bypass list and granular bypass permissions.
 
-### 🔔 7. Discord Webhook & Embed Customization
-- **100% Async Native HTTP Client:** Uses Java 21 `java.net.http.HttpClient` with zero external library bloat (<65 KB JAR).
+### 🛡️ 7. Deep Packet Guard *(PacketEvents Netty Inspection)*
+- **GuiMove / InvMove Detection (Right Shift ClickGUI):** In vanilla Minecraft, the client code suppresses movement input whenever a GUI is open. Deep Packet Guard detects players clicking inventory or GUI slots while actively sprinting, jumping, or moving with forward momentum—catching ClickGUI movement hacks immediately.
+- **Raw Network Command & Prefix Leak Drop:** Inspects raw `CHAT_MESSAGE` and `CHAT_COMMAND` packets right at the Netty pipeline level. Catches and silently drops client command leaks (`.killaura`, `.fly`, `.vclip`, `.bind`, `.baritone`, `#goto`, etc.) before they ever appear in public chat or reach Bukkit listeners.
+- **Custom Payload & Mod Channel Sniffing:** Detects registration of cheat mod channels (`baritone:`, `meteor:`, `wurst:`, `liquidbounce:`) during connection handshake.
+
+### 🔔 8. Discord Webhook & Embed Customization
+- **100% Async Native HTTP Client:** Uses Java 21 `java.net.http.HttpClient` with zero external library bloat (<70 KB JAR).
 - **Rich Embed Builder:** Fully customizable colors (`critical`, `warning`, `info`), avatar skin renders, and inline fields.
 - **Emergency Mention:** Automatically pings a specified role ID when critical Force OP attempts occur.
 
-### 📝 8. Asynchronous File Logging
+### 📝 9. Asynchronous File Logging
 - Batches and flushes security logs to `plugins/CappyGuard/logs/cappyguard.log` asynchronously, eliminating disk I/O lag on the main server thread.
 
 ---
@@ -112,6 +117,7 @@ CappyGuard features a comprehensive 4-tier permission architecture designed for 
 | `cappyguard.alert.creative` | Receive Creative item placement and transfer alerts | `op` |
 | `cappyguard.alert.abuse` | Receive Admin Abuse and Rate Limit alerts | `op` |
 | `cappyguard.alert.spoof` | Receive Plugin Scan reconnaissance alerts | `op` |
+| `cappyguard.alert.packet` | Receive Deep Packet Guard cheat alerts | `op` |
 
 ### 4. High-Level Bypass *(Server Owner Exemption)*
 | Permission | Description | Default |
@@ -123,6 +129,7 @@ CappyGuard features a comprehensive 4-tier permission architecture designed for 
 | `cappyguard.bypass.creative` | Exempt from Creative item monitoring | `false` |
 | `cappyguard.bypass.ratelimit` | Exempt from command rate limiting | `false` |
 | `cappyguard.bypass.spoof` | Allows viewing real plugins with `/plugins` or `/version` | `false` |
+| `cappyguard.bypass.packet` | Exempt from Deep Packet Guard Netty checks | `false` |
 
 ---
 
@@ -143,11 +150,15 @@ Main command alias: `/cg` or `/cappyguard`.
 
 ## 🛠️ Installation
 
-1. Download the latest `CappyGuard-1.0.0.jar` from [Releases](https://github.com/cappyboomc/CappyGuard/releases) or [Modrinth](#).
-2. Place the JAR file into your server's `plugins/` directory.
-3. Start or restart your server to generate `plugins/CappyGuard/config.yml`.
-4. Open `plugins/CappyGuard/config.yml` and add your **UUID** to `op-whitelist.allowed`.
-5. Run `/cg reload` in console.
+> [!IMPORTANT]
+> **Dependency Requirement:** CappyGuard requires **[PacketEvents](https://modrinth.com/plugin/packetevents)** installed on your Paper/Purpur server.
+
+1. Download **PacketEvents** and place it into your server's `plugins/` directory.
+2. Download the latest `CappyGuard-1.0.0.jar` from [Releases](https://github.com/cappyboomc/CappyGuard/releases) or [Modrinth](#).
+3. Place `CappyGuard-1.0.0.jar` into your server's `plugins/` directory.
+4. Start or restart your server to generate `plugins/CappyGuard/config.yml`.
+5. Open `plugins/CappyGuard/config.yml` and add your **UUID** to `op-whitelist.allowed`.
+6. Run `/cg reload` in console.
 
 ---
 

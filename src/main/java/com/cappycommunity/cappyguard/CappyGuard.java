@@ -89,3 +89,4 @@ public final class CappyGuard extends JavaPlugin {
         return moduleManager;
     }
 }
+

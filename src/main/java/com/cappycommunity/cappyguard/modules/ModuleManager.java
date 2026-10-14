@@ -10,6 +10,8 @@ import com.cappycommunity.cappyguard.modules.logging.LoggingModule;
 import com.cappycommunity.cappyguard.modules.opwhitelist.OPWhitelistModule;
 import com.cappycommunity.cappyguard.modules.pluginspoof.PluginSpoofModule;
 
+import com.cappycommunity.cappyguard.modules.packetguard.PacketGuardModule;
+
 import java.util.*;
 
 /**
@@ -35,6 +37,7 @@ public final class ModuleManager {
         addModule(new AntiDangerousModule(plugin));
         addModule(new CreativeMonitorModule(plugin));
         addModule(new PluginSpoofModule(plugin));
+        addModule(new PacketGuardModule(plugin));
     }
 
     private void addModule(AbstractModule module) {
@@ -69,3 +72,4 @@ public final class ModuleManager {
         return Collections.unmodifiableList(modules);
     }
 }
+

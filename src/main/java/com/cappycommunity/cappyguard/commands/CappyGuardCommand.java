@@ -158,3 +158,4 @@ public final class CappyGuardCommand implements CommandExecutor {
         MessageUtil.sendRaw(sender, "&8&m══════════════════════════════════════════");
     }
 }
+

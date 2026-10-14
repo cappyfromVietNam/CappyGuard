@@ -30,6 +30,7 @@ public final class DiscordWebhookManager {
     private boolean eventAdminAbuse;
     private boolean eventDangerousCmd;
     private boolean eventPluginSpoof;
+    private boolean eventPacketGuard;
 
     private String colorCritical;
     private String colorWarning;
@@ -62,6 +63,7 @@ public final class DiscordWebhookManager {
         this.eventAdminAbuse = config.getBoolean("discord.events.admin-abuse", true);
         this.eventDangerousCmd = config.getBoolean("discord.events.dangerous-commands", true);
         this.eventPluginSpoof = config.getBoolean("discord.events.plugin-spoof", false);
+        this.eventPacketGuard = config.getBoolean("discord.events.packet-guard", true);
 
         this.colorCritical = config.getString("discord.embed-colors.critical", "#FF2A2A");
         this.colorWarning = config.getString("discord.embed-colors.warning", "#FF9900");
@@ -86,6 +88,7 @@ public final class DiscordWebhookManager {
             case "admin-abuse" -> eventAdminAbuse;
             case "dangerous-commands" -> eventDangerousCmd;
             case "plugin-spoof" -> eventPluginSpoof;
+            case "packet-guard" -> eventPacketGuard;
             default -> true;
         };
     }
@@ -163,3 +166,4 @@ public final class DiscordWebhookManager {
         return "\"" + s.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n") + "\"";
     }
 }
+

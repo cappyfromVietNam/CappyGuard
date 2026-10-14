@@ -123,3 +123,4 @@ public final class AntiGamemodeModule extends AbstractModule {
         }
     }
 }
+

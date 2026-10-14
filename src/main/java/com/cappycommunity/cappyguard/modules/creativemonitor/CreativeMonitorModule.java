@@ -326,3 +326,4 @@ public final class CreativeMonitorModule extends AbstractModule {
                 loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
     }
 }
+

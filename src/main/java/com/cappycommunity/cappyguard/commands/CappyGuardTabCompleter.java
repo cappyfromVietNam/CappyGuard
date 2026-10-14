@@ -71,3 +71,4 @@ public final class CappyGuardTabCompleter implements TabCompleter {
         return matches;
     }
 }
+

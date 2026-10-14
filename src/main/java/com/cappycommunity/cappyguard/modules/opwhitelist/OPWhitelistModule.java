@@ -115,3 +115,4 @@ public final class OPWhitelistModule extends AbstractModule {
         return Collections.unmodifiableList(rawEntries);
     }
 }
+

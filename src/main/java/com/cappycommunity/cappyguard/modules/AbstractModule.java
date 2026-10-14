@@ -75,3 +75,4 @@ public abstract class AbstractModule implements Listener {
         return specificPermission != null && player.hasPermission(specificPermission);
     }
 }
+

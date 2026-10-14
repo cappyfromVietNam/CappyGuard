@@ -4,7 +4,7 @@ plugins {
 
 group = "com.cappycommunity"
 version = "1.0.0"
-description = "High-performance security plugin for Minecraft - Anti Force OP, Admin Abuse Prevention, Creative Monitor, Plugin Spoof, and Discord Webhooks"
+description = "High-performance security plugin for Minecraft - Anti Force OP, Admin Abuse Prevention, Creative Monitor, Plugin Spoof, Deep Packet Guard, and Discord Webhooks"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -14,10 +14,12 @@ java {
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.codemc.io/repository/maven-releases/")
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("com.github.retrooper:packetevents-spigot:2.7.0")
 }
 
 tasks.withType<JavaCompile> {
