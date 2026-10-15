@@ -154,7 +154,7 @@ Main command alias: `/cg` or `/cappyguard`.
 > **Dependency Requirement:** CappyGuard requires **[PacketEvents](https://modrinth.com/plugin/packetevents)** installed on your Paper/Purpur server.
 
 1. Download **PacketEvents** and place it into your server's `plugins/` directory.
-2. Download the latest `CappyGuard-1.0.0.jar` from [Releases](https://github.com/cappyboomc/CappyGuard/releases) or [Modrinth](#).
+2. Download the latest `CappyGuard-1.0.0.jar` from [Releases](https://github.com/cappyfromVietNam/CappyGuard/releases) or [Modrinth](#).
 3. Place `CappyGuard-1.0.0.jar` into your server's `plugins/` directory.
 4. Start or restart your server to generate `plugins/CappyGuard/config.yml`.
 5. Open `plugins/CappyGuard/config.yml` and add your **UUID** to `op-whitelist.allowed`.
@@ -168,7 +168,7 @@ CappyGuard requires **Java 21+** to build:
 
 ```bash
 # Clone the repository
-git clone https://github.com/cappyboomc/CappyGuard.git
+git clone https://github.com/cappyfromVietNam/CappyGuard.git
 cd CappyGuard
 
 # Build the project with Gradle Wrapper

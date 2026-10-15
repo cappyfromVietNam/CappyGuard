@@ -430,6 +430,6 @@ discord:
 
 ### 🛡️ CappyGuard — Protecting your Minecraft server, every tick of the way.
 
-**Cappy Community** · [GitHub](https://github.com/cappyboomc/CappyGuard) · MIT License
+**Cappy Community** · [GitHub](https://github.com/cappyfromVietNam/CappyGuard) · MIT License
 
 </div>
