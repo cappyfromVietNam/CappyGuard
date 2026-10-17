@@ -1,0 +1,33 @@
+# ==============================================================================
+#                              Plugin Spoof Module
+# ==============================================================================
+# Hides server plugin information from unauthorized players and hack clients,
+# preventing vulnerability reconnaissance and exploit searches.
+# ==============================================================================
+
+enabled: true
+
+# Mode options:
+# - HIDE: Return standard unknown command / permission error
+# - FAKE: Display a customized fake plugin list to mislead attackers
+# - CUSTOM_MESSAGE: Send a custom informative message
+mode: FAKE
+
+hide-message: "&cUnknown command. Type \"/help\" for help."
+custom-message: "&7Server plugin inspection is disabled on this server."
+
+# Simulated plugin list displayed in FAKE mode
+fake-plugins:
+  - "CappyGuard"
+  - "Essentials"
+  - "WorldGuard"
+  - "CoreProtect"
+
+# Strip plugin names from command tab completion (Paper API)
+block-tab-complete: true
+
+# Block /version <plugin> and /about <plugin> requests
+block-version-check: true
+
+# Log attempts when players try to scan plugins
+log-attempts: true

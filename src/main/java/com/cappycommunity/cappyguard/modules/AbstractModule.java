@@ -1,12 +1,14 @@
 package com.cappycommunity.cappyguard.modules;
 
 import com.cappycommunity.cappyguard.CappyGuard;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 /**
  * Base abstract class for all CappyGuard security modules.
+ * Each module reads its configuration from its dedicated file in plugins/CappyGuard/modules/<name>.yml.
  */
 public abstract class AbstractModule implements Listener {
 
@@ -19,14 +21,33 @@ public abstract class AbstractModule implements Listener {
 
     public abstract String getName();
 
-    public abstract String getConfigPath();
+    /**
+     * File name (without .yml extension) located in the modules/ directory.
+     */
+    public abstract String getConfigName();
+
+    /**
+     * Retained for compatibility; delegates to getConfigName().
+     */
+    public String getConfigPath() {
+        return getConfigName();
+    }
+
+    public FileConfiguration getModuleConfig() {
+        return plugin.getConfigManager().getModuleConfig(getConfigName());
+    }
+
+    public void saveModuleConfig() {
+        plugin.getConfigManager().saveModuleConfig(getConfigName());
+    }
 
     protected abstract void onEnable();
 
     protected abstract void onDisable();
 
     public void enable() {
-        boolean shouldEnable = plugin.getConfig().getBoolean(getConfigPath() + ".enabled", true);
+        FileConfiguration config = getModuleConfig();
+        boolean shouldEnable = config != null ? config.getBoolean("enabled", true) : true;
         if (shouldEnable) {
             this.enabled = true;
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -75,4 +96,3 @@ public abstract class AbstractModule implements Listener {
         return specificPermission != null && player.hasPermission(specificPermission);
     }
 }
-

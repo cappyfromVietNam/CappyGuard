@@ -1,0 +1,14 @@
+# ==============================================================================
+#                              OP Whitelist Module
+# ==============================================================================
+# Strict list of verified operators. Players not on this list will immediately
+# have their operator status revoked. Both UUIDs and usernames are supported.
+# UUID format is strongly recommended to prevent player renaming bypasses.
+# ==============================================================================
+
+enabled: true
+
+# Allowed Operators list (UUIDs or Player Names)
+allowed:
+  - "00000000-0000-0000-0000-000000000000" # Replace with your real UUID
+  - "ServerOwner"                           # Replace with your username

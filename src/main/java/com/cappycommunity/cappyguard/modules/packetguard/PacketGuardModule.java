@@ -54,7 +54,7 @@ public final class PacketGuardModule extends AbstractModule {
     }
 
     @Override
-    public String getConfigPath() {
+    public String getConfigName() {
         return "packet-guard";
     }
 
@@ -64,18 +64,27 @@ public final class PacketGuardModule extends AbstractModule {
         leakKeywords.clear();
         blockedChannels.clear();
 
-        FileConfiguration config = plugin.getConfig();
-        this.detectGuiMove = config.getBoolean("packet-guard.detect-guimove.enabled", true);
-        this.minVelocity = config.getDouble("packet-guard.detect-guimove.min-velocity", 0.08);
-        this.guiMoveAction = config.getString("packet-guard.detect-guimove.action", "ALERT").toUpperCase(Locale.ROOT);
+        FileConfiguration config = getModuleConfig();
+        if (config != null) {
+            this.detectGuiMove = config.getBoolean("detect-guimove.enabled", true);
+            this.minVelocity = config.getDouble("detect-guimove.min-velocity", 0.08);
+            this.guiMoveAction = config.getString("detect-guimove.action", "ALERT").toUpperCase(Locale.ROOT);
 
-        this.detectPrefixLeaks = config.getBoolean("packet-guard.detect-prefix-leaks.enabled", true);
-        this.dropPrefixPacket = config.getBoolean("packet-guard.detect-prefix-leaks.drop-packet", true);
-        this.leakPrefixes.addAll(config.getStringList("packet-guard.detect-prefix-leaks.prefixes"));
-        this.leakKeywords.addAll(config.getStringList("packet-guard.detect-prefix-leaks.keywords"));
+            this.detectPrefixLeaks = config.getBoolean("detect-prefix-leaks.enabled", true);
+            this.dropPrefixPacket = config.getBoolean("detect-prefix-leaks.drop-packet", true);
+            this.leakPrefixes.addAll(config.getStringList("detect-prefix-leaks.prefixes"));
+            this.leakKeywords.addAll(config.getStringList("detect-prefix-leaks.keywords"));
 
-        this.detectModChannels = config.getBoolean("packet-guard.detect-mod-channels.enabled", true);
-        this.blockedChannels.addAll(config.getStringList("packet-guard.detect-mod-channels.blocked-channels"));
+            this.detectModChannels = config.getBoolean("detect-mod-channels.enabled", true);
+            this.blockedChannels.addAll(config.getStringList("detect-mod-channels.blocked-channels"));
+        } else {
+            this.detectGuiMove = true;
+            this.minVelocity = 0.08;
+            this.guiMoveAction = "ALERT";
+            this.detectPrefixLeaks = true;
+            this.dropPrefixPacket = true;
+            this.detectModChannels = true;
+        }
 
         // Register PacketEvents listener
         this.registeredListener = PacketEvents.getAPI().getEventManager().registerListener(packetListener, PacketListenerPriority.NORMAL);

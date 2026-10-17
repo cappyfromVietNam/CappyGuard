@@ -1,0 +1,47 @@
+# ==============================================================================
+#                            Deep Packet Guard Module
+# ==============================================================================
+# Inspects raw network packets using PacketEvents to catch Hack Clients,
+# ClickGUI movement (GuiMove / InvMove), command prefix leaks, and cheat channels.
+# ==============================================================================
+
+enabled: true
+
+# Detects players clicking GUI or inventory slots while moving or jumping (GuiMove)
+detect-guimove:
+  enabled: true
+  min-velocity: 0.08
+  action: ALERT       # ALERT or CANCEL
+
+# Catches and drops client command leaks before they appear in public chat
+detect-prefix-leaks:
+  enabled: true
+  drop-packet: true
+  prefixes:
+    - "."
+    - ","
+    - "-"
+    - "@"
+    - "#"
+    - ";"
+  # Suspicious keywords that trigger immediate critical alerts
+  keywords:
+    - "killaura"
+    - "fly"
+    - "vclip"
+    - "bind"
+    - "toggle"
+    - "baritone"
+    - "nuker"
+    - "speed"
+    - "esp"
+    - "vanish"
+
+# Sniff custom payload channels for cheat mod signatures
+detect-mod-channels:
+  enabled: true
+  blocked-channels:
+    - "baritone"
+    - "wurst"
+    - "meteor"
+    - "liquidbounce"

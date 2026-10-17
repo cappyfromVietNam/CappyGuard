@@ -1,0 +1,20 @@
+# ==============================================================================
+#                            Anti Admin Abuse Module
+# ==============================================================================
+# Controls excessive use of administrative commands by staff members.
+# ==============================================================================
+
+enabled: true
+
+# Rate Limiter settings for administrative commands
+rate-limit:
+  enabled: true
+  # Maximum administrative commands allowed within the time window
+  max-commands: 10
+  # Time window in seconds
+  time-window: 60
+  # Action when limit is exceeded: WARN, KICK, or TEMPBAN
+  action: WARN
+
+# Block staff from giving items to themselves via /give, /minecraft:give, or /item
+block-self-give: true

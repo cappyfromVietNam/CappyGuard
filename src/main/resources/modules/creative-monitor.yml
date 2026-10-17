@@ -1,0 +1,35 @@
+# ==============================================================================
+#                            Creative Monitor Module
+# ==============================================================================
+# Monitors staff inventory actions while in Creative Mode.
+# Records exact coordinates (X, Y, Z) and world when items are deposited into
+# chests or containers, stored in ender chests, or dropped to other players.
+# ==============================================================================
+
+enabled: true
+
+# Action mode:
+# - LOG_ONLY: Record events in logs without restriction
+# - ALERT: Record events and notify online staff immediately
+# - RESTRICT: Block staff from placing creative items into containers
+action: ALERT
+
+track:
+  chest-place: true        # Log when items are deposited into chests / barrels / hoppers
+  ender-chest: true        # Log when items are deposited into Ender Chests
+  item-drop: true          # Log when items are dropped on the ground
+  item-pickup: true        # Log when another player picks up a dropped creative item
+  gamemode-switch: true    # Log if player retains creative items after switching to survival
+
+# Clear player inventory automatically when switching from Creative to Survival
+clear-on-switch: false
+
+# Specific items to track (leave empty [] to track all items)
+tracked-items: []
+
+# Common blocks to ignore to avoid cluttering logs
+ignored-items:
+  - "DIRT"
+  - "COBBLESTONE"
+  - "STONE"
+  - "GRASS_BLOCK"

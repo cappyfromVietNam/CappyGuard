@@ -45,19 +45,19 @@ public final class AntiForceOPModule extends AbstractModule {
     }
 
     @Override
-    public String getConfigPath() {
+    public String getConfigName() {
         return "anti-force-op";
     }
 
     @Override
     protected void onEnable() {
-        FileConfiguration config = plugin.getConfig();
-        this.action = config.getString("anti-force-op.action", "KICK").toUpperCase(Locale.ROOT);
-        this.blockOpCommand = config.getBoolean("anti-force-op.block-op-command", true);
-        this.blockConsoleOp = config.getBoolean("anti-force-op.block-console-op", true);
-        this.scanInterval = config.getInt("anti-force-op.scan-interval", 10);
-        this.kickMessage = config.getString("anti-force-op.kick-message", "&c[CappyGuard] Unauthorized Operator privileges detected!");
-        this.banMessage = config.getString("anti-force-op.ban-message", "&c[CappyGuard] Force OP attempt detected. You have been banned!");
+        FileConfiguration config = getModuleConfig();
+        this.action = config != null ? config.getString("action", "KICK").toUpperCase(Locale.ROOT) : "KICK";
+        this.blockOpCommand = config == null || config.getBoolean("block-op-command", true);
+        this.blockConsoleOp = config == null || config.getBoolean("block-console-op", true);
+        this.scanInterval = config != null ? config.getInt("scan-interval", 10) : 10;
+        this.kickMessage = config != null ? config.getString("kick-message", "&c[CappyGuard] Unauthorized Operator privileges detected!") : "&c[CappyGuard] Unauthorized Operator privileges detected!";
+        this.banMessage = config != null ? config.getString("ban-message", "&c[CappyGuard] Force OP attempt detected. You have been banned!") : "&c[CappyGuard] Force OP attempt detected. You have been banned!";
 
         startScanTask();
     }
@@ -208,4 +208,3 @@ public final class AntiForceOPModule extends AbstractModule {
         }
     }
 }
-

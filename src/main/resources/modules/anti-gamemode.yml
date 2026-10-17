@@ -1,0 +1,19 @@
+# ==============================================================================
+#                           Anti Gamemode Abuse Module
+# ==============================================================================
+# Restricts staff members from freely switching into creative or spectator mode.
+# ==============================================================================
+
+enabled: true
+
+# Gamemodes restricted by default
+blocked-gamemodes:
+  - CREATIVE
+  - SPECTATOR
+
+# List of allowed player UUIDs or usernames permitted to switch gamemodes
+allowed-players: []
+
+# List of worlds where switching into restricted gamemodes is permitted
+allowed-worlds:
+  - "creative_world"

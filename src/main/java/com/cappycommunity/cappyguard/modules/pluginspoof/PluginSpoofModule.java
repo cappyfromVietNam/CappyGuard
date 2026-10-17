@@ -43,7 +43,7 @@ public final class PluginSpoofModule extends AbstractModule {
     }
 
     @Override
-    public String getConfigPath() {
+    public String getConfigName() {
         return "plugin-spoof";
     }
 
@@ -51,14 +51,21 @@ public final class PluginSpoofModule extends AbstractModule {
     protected void onEnable() {
         fakePlugins.clear();
 
-        FileConfiguration config = plugin.getConfig();
-        this.mode = config.getString("plugin-spoof.mode", "FAKE").toUpperCase(Locale.ROOT);
-        this.hideMessage = config.getString("plugin-spoof.hide-message", "&cUnknown command. Type \"/help\" for help.");
-        this.customMessage = config.getString("plugin-spoof.custom-message", "&7Server plugin inspection is disabled on this server.");
-        this.fakePlugins.addAll(config.getStringList("plugin-spoof.fake-plugins"));
-        this.blockTabComplete = config.getBoolean("plugin-spoof.block-tab-complete", true);
-        this.blockVersionCheck = config.getBoolean("plugin-spoof.block-version-check", true);
-        this.logAttempts = config.getBoolean("plugin-spoof.log-attempts", true);
+        FileConfiguration config = getModuleConfig();
+        this.mode = config != null ? config.getString("mode", "FAKE").toUpperCase(Locale.ROOT) : "FAKE";
+        this.hideMessage = config != null ? config.getString("hide-message", "&cUnknown command. Type \"/help\" for help.") : "&cUnknown command. Type \"/help\" for help.";
+        this.customMessage = config != null ? config.getString("custom-message", "&7Server plugin inspection is disabled on this server.") : "&7Server plugin inspection is disabled on this server.";
+
+        if (config != null) {
+            this.fakePlugins.addAll(config.getStringList("fake-plugins"));
+            this.blockTabComplete = config.getBoolean("block-tab-complete", true);
+            this.blockVersionCheck = config.getBoolean("block-version-check", true);
+            this.logAttempts = config.getBoolean("log-attempts", true);
+        } else {
+            this.blockTabComplete = true;
+            this.blockVersionCheck = true;
+            this.logAttempts = true;
+        }
     }
 
     @Override
@@ -134,4 +141,3 @@ public final class PluginSpoofModule extends AbstractModule {
         }
     }
 }
-

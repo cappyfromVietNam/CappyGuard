@@ -1,0 +1,24 @@
+# ==============================================================================
+#                              Anti Force OP Module
+# ==============================================================================
+# Prevents unauthorized players from obtaining operator status via backdoors,
+# compromised console sessions, or exploited plugins.
+# ==============================================================================
+
+enabled: true
+
+# Action to take when an unauthorized OP event occurs: DEOP, KICK, or BAN
+action: KICK
+
+# Block player execution of /op and /minecraft:op commands
+block-op-command: true
+
+# Block console execution of 'op <target>' if the target player is not whitelisted
+block-console-op: true
+
+# Periodic online player scan interval in seconds (0 to disable)
+scan-interval: 10
+
+# Punishment messages
+kick-message: "&c[CappyGuard] Unauthorized Operator privileges detected!"
+ban-message: "&c[CappyGuard] Force OP attempt detected. You have been banned!"

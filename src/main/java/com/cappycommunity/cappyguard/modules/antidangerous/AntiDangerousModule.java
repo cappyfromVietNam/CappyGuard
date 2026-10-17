@@ -33,7 +33,7 @@ public final class AntiDangerousModule extends AbstractModule {
     }
 
     @Override
-    public String getConfigPath() {
+    public String getConfigName() {
         return "anti-dangerous-commands";
     }
 
@@ -43,23 +43,25 @@ public final class AntiDangerousModule extends AbstractModule {
         bypassUuids.clear();
         bypassNames.clear();
 
-        FileConfiguration config = plugin.getConfig();
-        List<String> list = config.getStringList("anti-dangerous-commands.blocked-commands");
-        for (String cmd : list) {
-            if (cmd != null && !cmd.isBlank()) {
-                String clean = cmd.trim().toLowerCase(Locale.ROOT);
-                if (!clean.startsWith("/")) clean = "/" + clean;
-                blockedCommands.add(clean);
+        FileConfiguration config = getModuleConfig();
+        if (config != null) {
+            List<String> list = config.getStringList("blocked-commands");
+            for (String cmd : list) {
+                if (cmd != null && !cmd.isBlank()) {
+                    String clean = cmd.trim().toLowerCase(Locale.ROOT);
+                    if (!clean.startsWith("/")) clean = "/" + clean;
+                    blockedCommands.add(clean);
+                }
             }
-        }
 
-        List<String> bypassList = config.getStringList("anti-dangerous-commands.bypass-players");
-        for (String p : bypassList) {
-            if (p == null || p.isBlank()) continue;
-            try {
-                bypassUuids.add(UUID.fromString(p.trim()));
-            } catch (IllegalArgumentException e) {
-                bypassNames.add(p.trim().toLowerCase(Locale.ROOT));
+            List<String> bypassList = config.getStringList("bypass-players");
+            for (String p : bypassList) {
+                if (p == null || p.isBlank()) continue;
+                try {
+                    bypassUuids.add(UUID.fromString(p.trim()));
+                } catch (IllegalArgumentException e) {
+                    bypassNames.add(p.trim().toLowerCase(Locale.ROOT));
+                }
             }
         }
     }
@@ -107,4 +109,3 @@ public final class AntiDangerousModule extends AbstractModule {
         }
     }
 }
-

@@ -6,7 +6,6 @@ import com.cappycommunity.cappyguard.modules.AbstractModule;
 import com.cappycommunity.cappyguard.utils.AsyncLogBuffer;
 import com.cappycommunity.cappyguard.utils.MessageUtil;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.UUID;
@@ -35,17 +34,17 @@ public final class LoggingModule extends AbstractModule {
     }
 
     @Override
-    public String getConfigPath() {
+    public String getConfigName() {
         return "logging";
     }
 
     @Override
     protected void onEnable() {
-        FileConfiguration config = plugin.getConfig();
-        this.fileLogging = config.getBoolean("logging.file-logging", true);
-        this.staffAlerts = config.getBoolean("logging.staff-alerts", true);
+        FileConfiguration config = getModuleConfig();
+        this.fileLogging = config == null || config.getBoolean("file-logging", true);
+        this.staffAlerts = config == null || config.getBoolean("staff-alerts", true);
 
-        String relativePath = config.getString("logging.log-file", "logs/cappyguard.log");
+        String relativePath = config != null ? config.getString("log-file", "logs/cappyguard.log") : "logs/cappyguard.log";
         if (this.logBuffer != null) {
             this.logBuffer.shutdown();
         }
@@ -113,4 +112,3 @@ public final class LoggingModule extends AbstractModule {
         }
     }
 }
-

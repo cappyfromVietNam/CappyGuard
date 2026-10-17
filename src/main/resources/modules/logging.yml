@@ -1,0 +1,24 @@
+# ==============================================================================
+#                             Logging & Alert Module
+# ==============================================================================
+# Controls file logging, in-game alerts, and event filtering.
+# ==============================================================================
+
+enabled: true
+
+# Asynchronous non-blocking file logging
+file-logging: true
+log-file: "logs/cappyguard.log"
+
+# In-game notification for staff players with permission cappyguard.alert
+staff-alerts: true
+
+# Event categories to log and broadcast
+log-events:
+  op-changes: true
+  command-blocks: true
+  gamemode-changes: true
+  creative-monitor: true
+  admin-commands: true
+  plugin-spoof-attempts: true
+  packet-guard: true

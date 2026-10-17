@@ -1,0 +1,30 @@
+# ==============================================================================
+#                         Anti Dangerous Commands Module
+# ==============================================================================
+# Intercepts high-risk commands that could shut down or damage the server.
+# ==============================================================================
+
+enabled: true
+
+# List of blocked commands
+blocked-commands:
+  - "/stop"
+  - "/restart"
+  - "/reload"
+  - "/ban"
+  - "/ban-ip"
+  - "/kick"
+  - "/op"
+  - "/deop"
+  - "/minecraft:op"
+  - "/minecraft:deop"
+  - "/minecraft:ban"
+  - "/minecraft:ban-ip"
+  - "/minecraft:kick"
+  - "/minecraft:stop"
+  - "/pardon"
+  - "/pardon-ip"
+  - "/whitelist"
+
+# List of player UUIDs or names explicitly permitted to use these commands
+bypass-players: []

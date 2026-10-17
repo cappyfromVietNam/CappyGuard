@@ -57,7 +57,7 @@ public final class CreativeMonitorModule extends AbstractModule {
     }
 
     @Override
-    public String getConfigPath() {
+    public String getConfigName() {
         return "creative-monitor";
     }
 
@@ -66,25 +66,27 @@ public final class CreativeMonitorModule extends AbstractModule {
         trackedItems.clear();
         ignoredItems.clear();
 
-        FileConfiguration config = plugin.getConfig();
-        this.action = config.getString("creative-monitor.action", "ALERT").toUpperCase(Locale.ROOT);
-        this.trackChestPlace = config.getBoolean("creative-monitor.track.chest-place", true);
-        this.trackEnderChest = config.getBoolean("creative-monitor.track.ender-chest", true);
-        this.trackItemDrop = config.getBoolean("creative-monitor.track.item-drop", true);
-        this.trackItemPickup = config.getBoolean("creative-monitor.track.item-pickup", true);
-        this.trackGamemodeSwitch = config.getBoolean("creative-monitor.track.gamemode-switch", true);
-        this.clearOnSwitch = config.getBoolean("creative-monitor.clear-on-switch", false);
+        FileConfiguration config = getModuleConfig();
+        this.action = config != null ? config.getString("action", "ALERT").toUpperCase(Locale.ROOT) : "ALERT";
+        this.trackChestPlace = config == null || config.getBoolean("track.chest-place", true);
+        this.trackEnderChest = config == null || config.getBoolean("track.ender-chest", true);
+        this.trackItemDrop = config == null || config.getBoolean("track.item-drop", true);
+        this.trackItemPickup = config == null || config.getBoolean("track.item-pickup", true);
+        this.trackGamemodeSwitch = config == null || config.getBoolean("track.gamemode-switch", true);
+        this.clearOnSwitch = config != null && config.getBoolean("clear-on-switch", false);
 
-        List<String> tracked = config.getStringList("creative-monitor.tracked-items");
-        for (String item : tracked) {
-            Material mat = Material.matchMaterial(item);
-            if (mat != null) trackedItems.add(mat);
-        }
+        if (config != null) {
+            List<String> tracked = config.getStringList("tracked-items");
+            for (String item : tracked) {
+                Material mat = Material.matchMaterial(item);
+                if (mat != null) trackedItems.add(mat);
+            }
 
-        List<String> ignored = config.getStringList("creative-monitor.ignored-items");
-        for (String item : ignored) {
-            Material mat = Material.matchMaterial(item);
-            if (mat != null) ignoredItems.add(mat);
+            List<String> ignored = config.getStringList("ignored-items");
+            for (String item : ignored) {
+                Material mat = Material.matchMaterial(item);
+                if (mat != null) ignoredItems.add(mat);
+            }
         }
     }
 
@@ -326,4 +328,3 @@ public final class CreativeMonitorModule extends AbstractModule {
                 loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
     }
 }
-

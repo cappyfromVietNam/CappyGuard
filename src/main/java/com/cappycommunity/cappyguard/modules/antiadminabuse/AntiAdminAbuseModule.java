@@ -41,18 +41,18 @@ public final class AntiAdminAbuseModule extends AbstractModule {
     }
 
     @Override
-    public String getConfigPath() {
+    public String getConfigName() {
         return "anti-admin-abuse";
     }
 
     @Override
     protected void onEnable() {
-        FileConfiguration config = plugin.getConfig();
-        this.rateLimitEnabled = config.getBoolean("anti-admin-abuse.rate-limit.enabled", true);
-        this.maxCommands = config.getInt("anti-admin-abuse.rate-limit.max-commands", 10);
-        this.timeWindow = config.getInt("anti-admin-abuse.rate-limit.time-window", 60);
-        this.action = config.getString("anti-admin-abuse.rate-limit.action", "WARN").toUpperCase(Locale.ROOT);
-        this.blockSelfGive = config.getBoolean("anti-admin-abuse.block-self-give", true);
+        FileConfiguration config = getModuleConfig();
+        this.rateLimitEnabled = config == null || config.getBoolean("rate-limit.enabled", true);
+        this.maxCommands = config != null ? config.getInt("rate-limit.max-commands", 10) : 10;
+        this.timeWindow = config != null ? config.getInt("rate-limit.time-window", 60) : 60;
+        this.action = config != null ? config.getString("rate-limit.action", "WARN").toUpperCase(Locale.ROOT) : "WARN";
+        this.blockSelfGive = config == null || config.getBoolean("block-self-give", true);
     }
 
     @Override
@@ -140,10 +140,10 @@ public final class AntiAdminAbuseModule extends AbstractModule {
                     player.getUniqueId(),
                     player.getName(),
                     List.of(
-                            new DiscordEmbed.Field("Player", player.getName(), true),
-                            new DiscordEmbed.Field("Command Count", commandCount + " / " + maxCommands, true),
-                            new DiscordEmbed.Field("Window", timeWindow + " seconds", true),
-                            new DiscordEmbed.Field("Last Command", lastCommand, false)
+                                    new DiscordEmbed.Field("Player", player.getName(), true),
+                                    new DiscordEmbed.Field("Command Count", commandCount + " / " + maxCommands, true),
+                                    new DiscordEmbed.Field("Window", timeWindow + " seconds", true),
+                                    new DiscordEmbed.Field("Last Command", lastCommand, false)
                     )
             );
         }
@@ -164,4 +164,3 @@ public final class AntiAdminAbuseModule extends AbstractModule {
         commandTimestamps.remove(event.getPlayer().getUniqueId());
     }
 }
-

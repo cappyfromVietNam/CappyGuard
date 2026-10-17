@@ -2,12 +2,14 @@ package com.cappycommunity.cappyguard.modules.opwhitelist;
 
 import com.cappycommunity.cappyguard.CappyGuard;
 import com.cappycommunity.cappyguard.modules.AbstractModule;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
 /**
  * High-performance operator whitelist using O(1) HashSet lookups.
+ * Synchronized with modules/op-whitelist.yml.
  */
 public final class OPWhitelistModule extends AbstractModule {
 
@@ -25,7 +27,7 @@ public final class OPWhitelistModule extends AbstractModule {
     }
 
     @Override
-    public String getConfigPath() {
+    public String getConfigName() {
         return "op-whitelist";
     }
 
@@ -46,7 +48,8 @@ public final class OPWhitelistModule extends AbstractModule {
         allowedNames.clear();
         rawEntries.clear();
 
-        List<String> list = plugin.getConfig().getStringList("op-whitelist.allowed");
+        FileConfiguration config = getModuleConfig();
+        List<String> list = config != null ? config.getStringList("allowed") : List.of();
         for (String entry : list) {
             if (entry == null || entry.isBlank()) continue;
             rawEntries.add(entry.trim());
@@ -88,8 +91,11 @@ public final class OPWhitelistModule extends AbstractModule {
             allowedNames.add(clean.toLowerCase(Locale.ROOT));
         }
 
-        plugin.getConfig().set("op-whitelist.allowed", rawEntries);
-        plugin.saveConfig();
+        FileConfiguration config = getModuleConfig();
+        if (config != null) {
+            config.set("allowed", rawEntries);
+            saveModuleConfig();
+        }
         return true;
     }
 
@@ -104,8 +110,11 @@ public final class OPWhitelistModule extends AbstractModule {
             } catch (IllegalArgumentException e) {
                 allowedNames.remove(clean.toLowerCase(Locale.ROOT));
             }
-            plugin.getConfig().set("op-whitelist.allowed", rawEntries);
-            plugin.saveConfig();
+            FileConfiguration config = getModuleConfig();
+            if (config != null) {
+                config.set("allowed", rawEntries);
+                saveModuleConfig();
+            }
             return true;
         }
         return false;
@@ -115,4 +124,3 @@ public final class OPWhitelistModule extends AbstractModule {
         return Collections.unmodifiableList(rawEntries);
     }
 }
-

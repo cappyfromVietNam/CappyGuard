@@ -45,7 +45,7 @@ public final class CappyGuard extends JavaPlugin {
         getLogger().info("==================================================");
         getLogger().info("  CappyGuard v" + getPluginMeta().getVersion() + " has been successfully enabled!");
         getLogger().info("  Developed by Cappy Community (Paper 1.21+)");
-        getLogger().info("  8 Security Modules Active. Server protected 24/7.");
+        getLogger().info("  9 Security Modules Active. Server protected 24/7.");
         getLogger().info("==================================================");
     }
 

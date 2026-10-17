@@ -35,7 +35,7 @@ public final class AntiGamemodeModule extends AbstractModule {
     }
 
     @Override
-    public String getConfigPath() {
+    public String getConfigName() {
         return "anti-gamemode";
     }
 
@@ -46,28 +46,30 @@ public final class AntiGamemodeModule extends AbstractModule {
         allowedNames.clear();
         allowedWorlds.clear();
 
-        FileConfiguration config = plugin.getConfig();
-        List<String> gmList = config.getStringList("anti-gamemode.blocked-gamemodes");
-        for (String gm : gmList) {
-            try {
-                blockedGamemodes.add(GameMode.valueOf(gm.toUpperCase(Locale.ROOT)));
-            } catch (IllegalArgumentException ignored) {}
-        }
-
-        List<String> playerList = config.getStringList("anti-gamemode.allowed-players");
-        for (String p : playerList) {
-            if (p == null || p.isBlank()) continue;
-            try {
-                allowedUuids.add(UUID.fromString(p.trim()));
-            } catch (IllegalArgumentException e) {
-                allowedNames.add(p.trim().toLowerCase(Locale.ROOT));
+        FileConfiguration config = getModuleConfig();
+        if (config != null) {
+            List<String> gmList = config.getStringList("blocked-gamemodes");
+            for (String gm : gmList) {
+                try {
+                    blockedGamemodes.add(GameMode.valueOf(gm.toUpperCase(Locale.ROOT)));
+                } catch (IllegalArgumentException ignored) {}
             }
-        }
 
-        List<String> worldList = config.getStringList("anti-gamemode.allowed-worlds");
-        for (String w : worldList) {
-            if (w != null && !w.isBlank()) {
-                allowedWorlds.add(w.trim().toLowerCase(Locale.ROOT));
+            List<String> playerList = config.getStringList("allowed-players");
+            for (String p : playerList) {
+                if (p == null || p.isBlank()) continue;
+                try {
+                    allowedUuids.add(UUID.fromString(p.trim()));
+                } catch (IllegalArgumentException e) {
+                    allowedNames.add(p.trim().toLowerCase(Locale.ROOT));
+                }
+            }
+
+            List<String> worldList = config.getStringList("allowed-worlds");
+            for (String w : worldList) {
+                if (w != null && !w.isBlank()) {
+                    allowedWorlds.add(w.trim().toLowerCase(Locale.ROOT));
+                }
             }
         }
     }
@@ -123,4 +125,3 @@ public final class AntiGamemodeModule extends AbstractModule {
         }
     }
 }
-
